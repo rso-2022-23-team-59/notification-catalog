@@ -13,21 +13,23 @@ spec:
         app: notification-catalog
     spec:
       containers:
-        - image: notification/notification-catalog:latest
+        - image: aljazv/notification-catalog:latest
           name: notification-catalog
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgresql://mouse.db.elephantsql.com:5432/atdzsndu
+              value: jdbc:postgresql://snuffleupagus.db.elephantsql.com/ugawfgxl
             - name: KUMULUZEE_DATASOURCES0_USERNAME
-              value: atdzsndu
+              value: ugawfgxl
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: notification-catalog-database-password
                   key: KUMULUZEE_DATASOURCES0_PASSWORD
+            - name: KUMULUZEE_AMQP_RABBITMQ_HOSTS0_URL
+              value: rabbitmq
           ports:
             - containerPort: 8080
-              name: notification-port
+              name: notif-port
               protocol: TCP
           imagePullPolicy: IfNotPresent
 
@@ -42,6 +44,6 @@ spec:
   ports:
     - port: 8080
       protocol: TCP
-      targetPort: notification-port
+      targetPort: notif-port
   selector:
     app: notification-catalog
