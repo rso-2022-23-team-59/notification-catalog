@@ -1,0 +1,31 @@
+kumuluzee:
+  name: notification-catalog-microservice
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+    base-url: http://localhost:8080
+    http:
+      port: 8080
+  datasources:
+    - jndi-name: jdbc/NotificationsDS
+      connection-url: jdbc:postgresql://localhost:5432/notifications
+      username: dbuser
+      password: postgres
+      max-pool-size: 20
+
+  amqp:
+    rabbitmq:
+      hosts:
+        - name: PSProduct
+          url: localhost
+          port: 5672
+          username: guest
+          password: guest
+          exchanges:
+            - name: productInfo
+              type: fanout
+
+email-notification:
+  email-notification-host: mockhost
+  email-notification-api-key: mockvalue

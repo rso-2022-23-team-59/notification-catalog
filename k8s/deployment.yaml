@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-catalog-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-catalog
+  template:
+    metadata:
+      labels:
+        app: notification-catalog
+    spec:
+      containers:
+        - image: notification/notification-catalog:latest
+          name: notification-catalog
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://mouse.db.elephantsql.com:5432/atdzsndu
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: atdzsndu
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: notification-catalog-database-password
+                  key: KUMULUZEE_DATASOURCES0_PASSWORD
+          ports:
+            - containerPort: 8080
+              name: notification-port
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-catalog
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: notification-port
+  selector:
+    app: notification-catalog
