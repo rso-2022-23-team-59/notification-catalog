@@ -25,6 +25,18 @@ spec:
                 secretKeyRef:
                   name: notification-catalog-database-password
                   key: KUMULUZEE_DATASOURCES0_PASSWORD
+            - name: EMAIL_NOTIFICATION_EMAIL_NOTIFICATION_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: email-notification
+                  key: EMAIL_NOTIFICATION_EMAIL_NOTIFICATION_HOST
+            - name: EMAIL_NOTIFICATION_EMAIL_NOTIFICATION_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: email-notification
+                  key: EMAIL_NOTIFICATION_EMAIL_NOTIFICATION_API_KEY
+
+
             - name: KUMULUZEE_AMQP_RABBITMQ_HOSTS0_URL
               value: rabbitmq
           ports:
